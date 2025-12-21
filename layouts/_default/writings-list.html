@@ -1,0 +1,18 @@
+{{ define "main" }}
+{{ partial "topnav.html" . }}
+<article class="post">
+  <h1>{{ .Title }}</h1>
+  {{ .Content }}
+</article>
+<section class="list">
+  <ul>
+    {{ range (where site.RegularPages "Section" "posts") }}
+      <li>
+        <span>{{ .Date.Format "Jan 2, 2006" }}</span>
+        <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+        {{ with .Summary }}<div class="summary">{{ . }}</div>{{ end }}
+      </li>
+    {{ end }}
+  </ul>
+</section>
+{{ end }}

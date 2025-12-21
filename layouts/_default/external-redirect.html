@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    {{ $dest := .Params.external_link | default .Params.redirect_url }}
+    {{ if not $dest }}
+      <title>Redirect misconfigured</title>
+    {{ else }}
+      <title>Redirecting…</title>
+      <meta http-equiv="refresh" content="0; url={{ $dest }}">
+      <link rel="canonical" href="{{ $dest }}">
+      <script>window.location.replace({{ $dest | jsonify }});</script>
+    {{ end }}
+  </head>
+
+  <body>
+    {{ if not $dest }}
+      <p>
+        Missing <code>external_link</code> (or <code>redirect_url</code>) in this page’s front matter.
+      </p>
+    {{ else }}
+      <p>Redirecting to <a href="{{ $dest }}">{{ $dest }}</a>…</p>
+    {{ end }}
+  </body>
+</html>

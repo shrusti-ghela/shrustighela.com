@@ -1,0 +1,19 @@
+{{ define "main" }}
+  {{ if .Params.external_link }}
+    <script>
+      (function () {
+        var u = {{ .Params.external_link | jsonify }};
+        if (!u) return;
+        u = ("" + u).trim();
+        if (!/^https?:\/\//i.test(u)) { u = "https://" + u.replace(/^\/+/, ""); }
+        // Redirect without adding the local page to history
+        location.replace(u);
+      })();
+    </script>
+  {{ else }}
+    <h1>{{ .Title }}</h1>
+    {{ .Date | time.Format ":date_medium" }}<br/><br/>
+    {{ .Content }}
+    {{ template "_internal/disqus.html" . }}
+  {{ end }}
+{{ end }}

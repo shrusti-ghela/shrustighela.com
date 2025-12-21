@@ -1,0 +1,201 @@
+{{ define "main" }}
+<h1>{{ .Title }}</h1>
+<div style="margin:.25rem 0 .75rem"><small>* denotes equal contribution</small></div>
+
+<style>
+  ul.pub-list{list-style:none;padding-left:0;margin:0}
+  /* a little more space between entries */
+  ul.pub-list > li{margin:1.25rem 0 2rem}
+
+  /* titles a bit larger */
+  .pub-title{
+    font-size:1.18em;
+    line-height:1.25;
+    display:inline-block;
+    margin-bottom:.1rem;
+  }
+  @media (min-width:640px){ .pub-title{ font-size:1.22em } }
+
+  .pub-meta small{opacity:.8}
+  .pub-links a{white-space:nowrap}
+
+  /* Awards: theme-highlighted chip, normal text size */
+  .pub-award{
+    --award-bg: var(--selection-bg, color-mix(in srgb, var(--link-color, #4aa8ff) 30%, transparent));
+    --award-ink: inherit;
+    --award-icon: var(--link-color, #4aa8ff);
+    margin:.35rem 0 0; line-height:1.35;
+  }
+  @supports not (background: color-mix(in srgb, white 50%, black)) {
+    .pub-award{ --award-bg: rgba(74,168,255,.30) }
+  }
+  .pub-award-badge{
+    display:inline-flex; align-items:center; gap:.4rem;
+    padding:.12rem .42rem;
+    background: var(--award-bg);
+    color: var(--award-ink);
+    border-radius:4px;
+    font-size:1em;
+    font-weight:500;
+    line-height:1.2;
+  }
+
+  /* Trophy SVG: force stroke-only line icon regardless of theme */
+  .pub-award-badge .icon{
+    width:1em; height:1em;
+    color:var(--award-icon);
+    vertical-align:-0.1em;
+  }
+  .pub-award-badge .icon *{
+    fill:none !important;
+    stroke:currentColor !important;
+    stroke-width:1.7;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+    shape-rendering:geometricPrecision;
+  }
+
+  .pub-award + .pub-award { margin-top:.25rem }
+
+  /* NEW: make abstract & description the same size */
+  .pub-fold-body{
+    font-size:1rem;   /* adjust if you want larger/smaller */
+    line-height:1.5;
+  }
+</style>
+
+<ul class="pub-list">
+  {{ $pages := .RegularPages.ByPublishDate.Reverse }}
+  {{ if gt (len $pages) 0 }}
+    {{ range $pages }}
+      <li>
+        <strong class="pub-title">{{ .Title }}</strong>
+
+        {{/* AUTHORS: underline "Shrusti Ghela"; keep trailing * outside underline; trim tokens */}}
+        {{ $authors := .Params.authors }}
+        {{ if $authors }}
+          <div><small>
+            {{ $t := printf "%T" $authors }}
+            {{ if or (eq $t "[]string") (eq $t "[]interface {}") }}
+              {{ $n := len $authors }}
+              {{ range $i, $raw := $authors }}
+                {{ $tok := trim (printf "%v" $raw) " \t\r\n" }}
+                {{ $hasStar := hasSuffix $tok "*" }}
+                {{ $plain := trim (replaceRE "\\*$" "" $tok) " \t\r\n" }}
+                {{ if eq (lower $plain) "shrusti ghela" }}<u>{{ $plain }}</u>{{ if $hasStar }}*{{ end }}{{ else }}{{ $plain }}{{ if $hasStar }}*{{ end }}{{ end }}
+                {{ if lt (add $i 1) $n }}, {{ end }}
+              {{ end }}
+            {{ else }}
+              {{ $tok := trim (printf "%v" $authors) " \t\r\n" }}
+              {{ $hasStar := hasSuffix $tok "*" }}
+              {{ $plain := trim (replaceRE "\\*$" "" $tok) " \t\r\n" }}
+              {{ if eq (lower $plain) "shrusti ghela" }}<u>{{ $plain }}</u>{{ if $hasStar }}*{{ end }}{{ else }}{{ $plain }}{{ if $hasStar }}*{{ end }}{{ end }}
+            {{ end }}
+          </small></div>
+        {{ end }}
+
+        {{/* ONE-LINE META */}}
+        {{ $venue      := .Params.venue }}
+        {{ $publisher  := .Params.publisher }}
+        {{ $explicitY  := .Params.year }}
+        {{ $dateY      := .Date.Format "2006" }}
+        {{ $hasDateY   := ne $dateY "0001" }}
+        {{ $hasPubDate := $hasDateY }}
+        {{ $displayY   := cond $explicitY $explicitY (cond $hasDateY $dateY "") }}
+        {{ $isBook     := or $publisher (eq .Params.type "book") }}
+        {{ $label      := cond $isBook $publisher $venue }}
+        {{ $hasYearInVenue := and (not $isBook) $venue (gt (len (findRE `\b(?:19|20)\d{2}\b` $venue)) 0) }}
+
+        {{ $main := "" }}
+        {{ if $label }}{{ $main = $label }}{{ end }}
+
+        {{ if and (not $isBook) (ne $displayY "") (not $hasYearInVenue) }}
+          {{ $main = printf "%s — %s" $main $displayY }}
+        {{ else if and $isBook (ne $displayY "") (not $hasPubDate) }}
+          {{ $main = printf "%s — %s" $main $displayY }}
+        {{ end }}
+
+        {{ $bits := slice }}
+        {{ if ne $main "" }}{{ $bits = $bits | append $main }}{{ end }}
+
+        {{ if $isBook }}
+          {{ with .Params.isbn  }}{{ $bits = $bits | append (printf "ISBN %s" .) }}{{ end }}
+          {{ with .Params.pages }}{{ $bits = $bits | append (printf "%v pages" .) }}{{ end }}
+          {{ if $hasPubDate }}{{ $bits = $bits | append (printf "Published %s" (.Date.Format "Jan 2, 2006")) }}{{ end }}
+        {{ end }}
+
+        {{ if gt (len $bits) 0 }}
+          <div class="pub-meta"><small>{{ delimit $bits " • " }}</small></div>
+        {{ end }}
+
+        {{/* AWARDS */}}
+        {{ $aw := .Params.awards }}
+        {{ if $aw }}
+          {{ $type := printf "%T" $aw }}
+          {{ if or (eq $type "[]string") (eq $type "[]interface {}") }}
+            {{ range $aw }}
+              <div class="pub-award">
+                <span class="pub-award-badge">
+                  <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                    <path d="M8 21h8"/>
+                    <path d="M12 17v4"/>
+                    <path d="M7 4h10"/>
+                    <path d="M17 4v6a5 5 0 0 1-10 0V4"/>
+                    <path d="M17 9h1a4 4 0 0 0 4-4V4h-5"/>
+                    <path d="M7 9H6a4 4 0 0 1-4-4V4h5"/>
+                  </svg>
+                  <span class="label">{{ . }}</span>
+                </span>
+              </div>
+            {{ end }}
+          {{ else }}
+            <div class="pub-award">
+              <span class="pub-award-badge">
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                  <path d="M8 21h8"/>
+                  <path d="M12 17v4"/>
+                  <path d="M7 4h10"/>
+                  <path d="M17 4v6a5 5 0 0 1-10 0V4"/>
+                  <path d="M17 9h1a4 4 0 0 0 4-4V4h-5"/>
+                  <path d="M7 9H6a4 4 0 0 1-4-4V4h5"/>
+                </svg>
+                <span class="label">{{ $aw }}</span>
+              </span>
+            </div>
+          {{ end }}
+        {{ end }}
+
+        {{/* LINKS */}}
+        <div class="pub-links" style="margin-top:.25rem;">
+          {{ $book     := .Params.book }}
+          {{ $pdf      := .Params.pdf }}
+          {{ $codeData := or .Params.code (index .Params "code/data") (index .Params "code_data") }}
+          {{ $site     := .Params.website }}
+
+          {{ $.Scratch.Set "sep" "" }}
+          {{ with $book     }}<a href="{{ . | safeURL }}" target="_blank" rel="noopener">Book</a>{{ $.Scratch.Set "sep" " · " }}{{ end }}
+          {{ with $pdf      }}{{ $.Scratch.Get "sep" }}<a href="{{ . | safeURL }}" target="_blank" rel="noopener">PDF</a>{{ $.Scratch.Set "sep" " · " }}{{ end }}
+          {{ with $codeData }}{{ $.Scratch.Get "sep" }}<a href="{{ . | safeURL }}" target="_blank" rel="noopener">Code / Data</a>{{ $.Scratch.Set "sep" " · " }}{{ end }}
+          {{ with $site     }}{{ $.Scratch.Get "sep" }}<a href="{{ . | safeURL }}" target="_blank" rel="noopener">Website</a>{{ end }}
+        </div>
+
+        {{ with .Params.description }}
+          <details style="margin-top:.35rem;">
+            <summary style="cursor:pointer;">Description</summary>
+            <div class="pub-fold-body" style="margin-top:.25rem;">{{ . | markdownify }}</div>
+          </details>
+        {{ end }}
+
+        {{ with .Params.abstract }}
+          <details style="margin-top:.35rem;">
+            <summary style="cursor:pointer;">Abstract</summary>
+            <div class="pub-fold-body" style="margin-top:.25rem;">{{ . | markdownify }}</div>
+          </details>
+        {{ end }}
+      </li>
+    {{ end }}
+  {{ else }}
+    <li><em>Nothing here yet — check back soon.</em></li>
+  {{ end }}
+</ul>
+{{ end }}

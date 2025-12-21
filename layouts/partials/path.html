@@ -1,0 +1,8 @@
+{{/* Builds absolute links for each segment of the current page path */}}
+{{- $parts := (split (trim .RelPermalink "/") "/") -}}
+{{- $acc := "" -}}
+<a href="{{ "/" | relURL }}">~</a>
+{{- range $i, $p := $parts -}}
+  {{- $acc = printf "%s/%s" $acc $p -}}
+  /<a href="{{ (printf "%s/" $acc) | relURL }}">{{ $p }}</a>
+{{- end -}}

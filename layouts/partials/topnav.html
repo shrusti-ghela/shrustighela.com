@@ -1,0 +1,19 @@
+{{ if not .IsHome }}
+<div class="nav-full">
+  <nav class="menu" style="margin: 8px 0 18px;">
+    {{ with .Site.Params.navlinks }}
+      {{ range . }}
+        {{ $u := .url }}
+        {{ $isExternal := or (hasPrefix $u "http://") (hasPrefix $u "https://") }}
+        {{ if $isExternal }}
+          <a href="{{ $u }}" target="_blank" rel="noopener">{{ .name }}</a>
+        {{ else }}
+          {{ if not (hasPrefix $u "/") }}{{ $u = printf "/%s" $u }}{{ end }}
+          {{ $active := eq (trim $u "/") (trim $.Page.RelPermalink "/") }}
+          <a href="{{ $u | relURL }}" {{ if $active }}class="active"{{ end }}>{{ .name }}</a>
+        {{ end }}
+      {{ end }}
+    {{ end }}
+  </nav>
+</div>
+{{ end }}

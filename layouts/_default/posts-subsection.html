@@ -1,0 +1,27 @@
+{{ define "main" }}
+<h1>{{ .Title }}</h1>
+<ul>
+  {{ $pages := .RegularPages.ByDate.Reverse }}
+  {{ if gt (len $pages) 0 }}
+    {{ range $pages }}
+      <li>
+        {{ if .Params.external_link }}
+          <a href="{{ .Params.external_link }}" target="_blank" rel="noopener nofollow">{{ .Title }}</a>
+        {{ else }}
+          <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+        {{ end }}
+        <small>— {{ .Date.Format "Jan 2, 2006" }}</small>
+        {{ with .Params.description }}
+          <div><small>{{ . }}</small></div>
+        {{ else }}
+          {{ with .Summary }}
+            <div><small>{{ . }}</small></div>
+          {{ end }}
+        {{ end }}
+      </li>
+    {{ end }}
+  {{ else }}
+    <li><em>Nothing here yet — check back soon.</em></li>
+  {{ end }}
+</ul>
+{{ end }}

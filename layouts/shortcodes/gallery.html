@@ -1,0 +1,128 @@
+{{/* layouts/shortcodes/gallery.html
+  Usage:
+    {{< gallery >}}                           → auto-load all images in this page bundle
+    {{< gallery images="a.jpg, b.JPG" >}}     → explicit list (spaces/case OK)
+    {{< gallery alt="Vienna" >}}
+
+  Notes:
+  - Works with leaf bundles: content/.../vienna/index.md + images beside it
+  - If you pass plain paths, they’re resolved relative to the page bundle,
+    unless they start with "/" (then treated as site-absolute).
+*/}}
+
+{{/* Build a slice of *string URLs* to render — no mixed types. */}}
+{{ $srcs := slice }}
+
+{{ if .Get "images" }}
+ {{- range (split (.Get "images") ",") -}}
+   {{- $name := trim . " " -}}
+   {{- with $.Page.Resources.GetMatch $name -}}
+     {{/* Found as a bundle resource → use its RelPermalink */}}
+     {{- $srcs = $srcs | append .RelPermalink -}}
+   {{- else -}}
+     {{/* Not a resource: turn it into a usable URL */}}
+     {{- if hasPrefix $name "/" -}}
+       {{- $srcs = $srcs | append ($name | relURL) -}}
+     {{- else -}}
+       {{- $srcs = $srcs | append (printf "%s%s" $.Page.RelPermalink $name) -}}
+     {{- end -}}
+   {{- end -}}
+ {{- end -}}
+{{ else }}
+ {{/* Auto mode: take every image resource in the leaf bundle */}}
+ {{- range .Page.Resources.ByType "image" -}}
+   {{- $srcs = $srcs | append .RelPermalink -}}
+ {{- end -}}
+{{ end }}
+
+<div class="sg-gallery" data-alt='{{ .Get "alt" }}'>
+ <div class="sg-gallery-viewport">
+   {{- range $i, $src := $srcs -}}
+     <img src="{{ $src }}" alt="{{ $.Get "alt" }}" class="sg-gallery-slide {{ if eq $i 0 }}active{{ end }}">
+   {{- end -}}
+ </div>
+ <div class="sg-gallery-controls">
+   <button class="prev" aria-label="Previous image">◀</button>
+   <div class="dots">
+     {{- range $i, $_ := $srcs -}}
+       <button class="dot {{ if eq $i 0 }}active{{ end }}" data-index="{{ $i }}" aria-label="Go to image {{ add $i 1 }}"></button>
+     {{- end -}}
+   </div>
+   <button class="next" aria-label="Next image">▶</button>
+ </div>
+</div>
+
+<style>
+  .sg-gallery{margin:12px 0 24px}
+  
+  /* Let the page scroll normally; don't clip the image */
+  .sg-gallery-viewport{
+    position:relative;
+    width:100%;
+    overflow:visible;           /* was hidden → caused "crop" */
+    display:flex;
+    justify-content:center;
+    align-items:flex-start;
+  }
+  
+  /* Show one image at a time; never crop; keep aspect; cap height */
+  .sg-gallery-slide{
+    display:none;
+    width:auto;                 /* don't force full width */
+    height:auto;                /* preserve aspect ratio */
+    max-width:100%;             /* fit column width */
+    max-height:80vh;            /* cap tall portraits */
+    object-fit:contain;         /* safe even if dimensions get constrained */
+  }
+  .sg-gallery-slide.active{ display:block; }
+  
+  /* Controls */
+  /* Controls */
+.sg-gallery-controls{
+  display:flex;justify-content:space-between;align-items:center;margin-top:8px
+}
+.dot,.prev,.next{
+  border:1px solid rgba(128,128,128,.35);
+  padding:6px 10px;
+  border-radius:999px;
+  background:transparent;
+  color:#e5e7eb;            /* light text for dark theme */
+}
+.dot.active{ background:rgba(128,128,128,.35) }
+.prev:hover,.next:hover,.dot:hover{ filter:brightness(1.15); }
+.prev:focus,.next:focus,.dot:focus{ outline:2px solid #e5e7eb33; outline-offset:2px; }
+
+  </style>
+  
+  
+
+<script>
+(function(){
+ function setup(g){
+   const slides=[...g.querySelectorAll('.sg-gallery-slide')];
+   if(!slides.length) return;
+   const prev=g.querySelector('.prev'), next=g.querySelector('.next');
+   const dots=[...g.querySelectorAll('.dot')];
+   let i=slides.findIndex(s=>s.classList.contains('active')); if(i<0) i=0;
+
+   function go(n){
+     slides[i].classList.remove('active'); dots[i]?.classList.remove('active');
+     i=(n+slides.length)%slides.length;
+     slides[i].classList.add('active'); dots[i]?.classList.add('active');
+   }
+
+   prev?.addEventListener('click',()=>go(i-1));
+   next?.addEventListener('click',()=>go(i+1));
+   dots.forEach((d,idx)=>d.addEventListener('click',()=>go(idx)));
+
+   // touch swipe
+   let startX=0, vp=g.querySelector('.sg-gallery-viewport');
+   vp?.addEventListener('touchstart',e=>{startX=e.touches[0].clientX},{passive:true});
+   vp?.addEventListener('touchend',e=>{
+     const dx=e.changedTouches[0].clientX-startX;
+     if(Math.abs(dx)>40) go(i+(dx<0?1:-1));
+   });
+ }
+ document.addEventListener('DOMContentLoaded',()=>document.querySelectorAll('.sg-gallery').forEach(setup));
+})();
+</script>

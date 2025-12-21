@@ -1,0 +1,56 @@
+{{ define "main" }}
+<main class="photos-index">
+  <h1>{{ .Title }}</h1>
+  {{ with .Content }}<div class="section-intro">{{ . }}</div>{{ end }}
+
+  <div class="photos-grid">
+    {{ $pages := where .RegularPages "Section" "photos" }}
+    {{ $pages = where $pages "Draft" false }}
+    {{ range $pages.ByDate.Reverse }}
+      {{ $cover := .Resources.GetMatch "cover*" }}
+      {{ if not $cover }}{{ $cover = .Resources.GetMatch "thumbnail*" }}{{ end }}
+      {{ if not $cover }}{{ $cover = .Resources.GetMatch "thumb*" }}{{ end }}
+      {{ if not $cover }}
+        {{ $first := first 1 (.Resources.ByType "image") }}
+        {{ with index $first 0 }}{{ $cover = . }}{{ end }}
+      {{ end }}
+
+      <a class="photos-card" href="{{ .RelPermalink }}">
+        {{ with $cover }}<img src="{{ .RelPermalink }}" alt="{{ $.Title }}">{{ end }}
+        <div class="meta">
+          <div class="title">{{ .Title }}</div>
+          <div class="date">{{ .Date.Format "Jan 2, 2006" }}</div>
+        </div>
+      </a>
+    {{ end }}
+  </div>
+</main>
+
+<style>
+.photos-index { margin-top: .5rem; }
+.photos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-top: 12px;
+}
+.photos-card {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  border: 1px solid rgba(128,128,128,.35);
+  padding: 10px;
+  transition: color .2s ease;
+}
+.photos-card img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+.photos-card .meta { margin-top: 8px; }
+.photos-card .title { color: #93c5fd; transition: color .2s ease; }
+.photos-card .date { opacity: .75; font-size: .9em; transition: color .2s ease, opacity .2s ease; }
+.photos-card:hover .title { color: #111827; }
+.photos-card:hover .date { color: #1f2937; opacity: 1; }
+</style>
+{{ end }}

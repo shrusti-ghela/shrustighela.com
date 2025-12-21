@@ -1,0 +1,65 @@
+{{ define "main" }}
+<h1>{{ .Title }}</h1>
+
+
+
+<section>
+  <h2><a href="{{ (site.GetPage "section" "posts/nerd-notes").RelPermalink }}">Nerd Notes</a></h2>
+  <ul>
+    {{ $sec1 := site.GetPage "section" "posts/nerd-notes" }}
+    {{ $pages1 := cond $sec1 (first 5 ($sec1.RegularPages.ByDate.Reverse)) (slice) }}
+    {{ if gt (len $pages1) 0 }}
+      {{ range $pages1 }}
+        <li>
+          {{ if .Params.external_link }}
+            <a href="{{ .Params.external_link }}" target="_blank" rel="noopener">{{ .Title }}</a>
+          {{ else }}
+            <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+          {{ end }}
+          <small>— {{ .Date.Format "Jan 2, 2006" }}</small>
+
+          {{ with .Params.subtitle }}
+            <div><small>{{ . }}</small></div>
+          {{ else }}
+            {{ with .Params.description }}
+              <div><small>{{ . }}</small></div>
+            {{ end }}
+          {{ end }}
+        </li>
+      {{ end }}
+    {{ else }}
+      <li><em>Nothing here yet — check back soon.</em></li>
+    {{ end }}
+  </ul>
+</section>
+
+<section style="margin-top:2rem;">
+  <h2><a href="{{ (site.GetPage "section" "posts/life-logs").RelPermalink }}">Life Logs</a></h2>
+  <ul>
+    {{ $sec2 := site.GetPage "section" "posts/life-logs" }}
+    {{ $pages2 := cond $sec2 (first 5 ($sec2.RegularPages.ByDate.Reverse)) (slice) }}
+    {{ if gt (len $pages2) 0 }}
+      {{ range $pages2 }}
+        <li>
+          {{ if .Params.external_link }}
+            <a href="{{ .Params.external_link }}" target="_blank" rel="noopener">{{ .Title }}</a>
+          {{ else }}
+            <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+          {{ end }}
+          <small>— {{ .Date.Format "Jan 2, 2006" }}</small>
+
+          {{ with .Params.subtitle }}
+            <div><small>{{ . }}</small></div>
+          {{ else }}
+            {{ with .Params.description }}
+              <div><small>{{ . }}</small></div>
+            {{ end }}
+          {{ end }}
+        </li>
+      {{ end }}
+    {{ else }}
+      <li><em>Nothing here yet — check back soon.</em></li>
+    {{ end }}
+  </ul>
+</section>
+{{ end }}

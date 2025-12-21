@@ -1,0 +1,27 @@
+{{ define "main" }}
+<main class="resume-index">
+  <h1>{{ .Title }}</h1>
+
+  {{ $path := .Params.file }}
+  {{ if not $path }}{{ $path = "/resume.pdf" }}{{ end }}
+
+  {{ $abs := printf "static%s" $path }}          {{/* Path to file in static/ */}}
+  {{ $stat := os.Stat $abs }}                    {{/* File info */}}
+  {{ $mod := $stat.ModTime.Unix }}                {{/* Last modified timestamp */}}
+  {{ $url := printf "%s?v=%d" ($path | relURL) $mod }}
+
+  <div style="display:flex;justify-content:flex-end;margin-bottom:1rem;">
+    <a href="{{ $url }}" download>Download Resume (PDF)</a>
+  </div>
+
+  {{ if (in (lower $path) ".pdf") }}
+    <object data="{{ $url }}" type="application/pdf" width="100%" height="900">
+      <p>Your browser can't display PDFs inline.
+        <a href="{{ $url }}" download>Download the resume</a>.
+      </p>
+    </object>
+  {{ else }}
+    <p><a href="{{ $url }}">Open resume</a></p>
+  {{ end }}
+</main>
+{{ end }}

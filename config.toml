@@ -1,0 +1,57 @@
+uglyURLs = false
+baseURL = "https://shrustighela.com/"
+languageCode = "en-us"
+title = "shrusti-ghela"
+theme = "hugo-theme-console"
+
+[pagination]
+pagerSize = 10
+
+[params]
+logo = "SG"
+showMenu = true
+animate = true
+
+[[params.navlinks]]
+name = "About"
+url  = "/"
+
+[[params.navlinks]]
+name = "Publications"
+url  = "/publications/"
+
+# [[params.navlinks]]
+# name = "Posts"
+# url  = "/posts/"
+
+[[params.navlinks]]
+name = "Blogs"
+url = "https://shrustighela.medium.com/list/tech-blogs-f265622ba2ab"
+
+[[params.navlinks]]
+name = "Essays"
+url = "https://shrustighela.medium.com/list/personal-essays-4bb2dd7e49a0"
+
+# [[params.navlinks]]
+# name = "Photos"
+# url  = "/photos/"
+
+[[params.navlinks]]
+name = "Resume"
+url  = "/resume/"
+
+[permalinks]
+posts  = "/:sections/:slug/"
+photos = "/photos/:slug/"
+
+[markup.goldmark.renderer]
+unsafe = true
+
+[params.Social]
+twitter = "https://twitter.com/shrusti_ghela"
+linkedin = "https://www.linkedin.com/in/shrustighela/"
+email = "mailto:shrustighela1@gmail.com"
+medium = "https://medium.com/@shrustighela"
+instagram = "https://www.instagram.com/shrustighela/"
+github = "https://github.com/shrusti-ghela"
+scholar = "https://scholar.google.com/citations?user=vHS9z5EAAAAJ&hl=en&oi=ao"

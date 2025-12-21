@@ -1,0 +1,72 @@
+{{ define "main" }}
+<!-- <div class="nav-full">
+  {{ partial "topnav.html" . }}
+</div> -->
+<!-- {{ partial "topnav.html" . }} -->
+
+<style>
+
+    /* Full-width navbar breakout */
+.nav-full {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+.nav-full .menu {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem 1.2rem;
+}
+
+
+.post { font-size: 0.9rem; }
+
+  /* Float the paragraph containing the first image */
+  .post p:first-of-type {
+    float: left !important;
+    width: auto;
+    margin: 0 1.25rem 0.75rem 0;
+  }
+
+  /* Style the image inside it */
+  .post p:first-of-type img {
+    width: 270px !important;       /* adjust as needed */
+    max-width: 270px !important;
+    height: auto !important;
+    border-radius: 0;
+    display: block;
+  }
+
+  /* Clear float after the first 3 text paragraphs
+     Image paragraph = p#1, text paras = p#2, p#3, p#4 → clear at p#5 */
+  .post > p:nth-of-type(7) {
+    clear: both;
+  }
+
+  /* Mobile: stack image above text */
+  @media (max-width: 720px) {
+    .post p:first-of-type {
+      float: none !important;
+      margin: 0 auto 1rem;
+      text-align: center;
+    }
+    .post p:first-of-type img {
+      width: 70% !important;
+      max-width: 320px !important;
+    }
+    .post > p:nth-of-type(5) {
+      clear: none;
+    }
+  }
+
+
+
+</style>
+
+<article class="post">
+  {{ .Content }}
+</article>
+{{ end }}
