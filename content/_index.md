@@ -2,18 +2,17 @@
 title: "About"
 ---
 <br> 
-<br>
 <!--<script defer src="/js/theme-toggle.js"></script> -->
 
 ![Shrusti](/images/home-headshot.jpg)
 
 Hi there!  
 
-I am a Data Scientist and an [Independent Researcher](https://en.wikipedia.org/wiki/Independent_scientist). I currently work at [WM](https://www.wm.com/) (formerly Waste Management), where I focus on [Routing Optimization problems](https://en.wikipedia.org/wiki/Vehicle_routing_problem). Before this, I earned a master’s degree in [Data Science](https://www.washington.edu/datasciencemasters/) from [University of Washington](https://www.washington.edu/).  
+I am a Data Scientist and an [Independent Researcher.](https://en.wikipedia.org/wiki/Independent_scientist) I currently work at [WM](https://www.wm.com/) (formerly Waste Management), where I focus on [Routing Optimization problems.](https://en.wikipedia.org/wiki/Vehicle_routing_problem) Before this, I earned a master’s degree in [Data Science](https://www.washington.edu/datasciencemasters/) from [University of Washington.](https://www.washington.edu/)  
 
 My research interests include Natural Language Processing, Evaluation, Pluralistic Alignment, and Human–AI Interaction.  
 
-For more about my work, please see my [publications](/publications/).
+For more about my work, please see my [publications.](/publications/)
 <br>
 
 <!-- [Read my full story →](/story-of-me/) -->
