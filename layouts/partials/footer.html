@@ -1,0 +1,76 @@
+<hr style="border:none;border-top:1px dashed rgba(255,255,255,0.3);margin:2rem 0">
+
+<footer class="site-footer" style="text-align:center;margin-bottom:2rem;">
+  <p style="margin-bottom:1rem; color:#9ca3af;">
+    <!-- /* Let's work together or just get coffee and nerd out on Data! */ -->
+  </p>
+
+  {{ $s := site.Params.Social }}
+  <div class="footer-social" style="display:flex;justify-content:center;gap:18px;margin-bottom:1rem;align-items:center;">
+    {{ with index $s "email" }}
+      <a href="{{ . }}" aria-label="Email" target="_blank" rel="noopener" class="si-link"><span class="si si-mail" aria-hidden="true"></span></a>
+    {{ end }}
+    {{ with index $s "github" }}
+      <a href="{{ . }}" target="_blank" rel="noopener" aria-label="GitHub" class="si-link"><span class="si si-github" aria-hidden="true"></span></a>
+    {{ end }}
+    {{ with index $s "linkedin" }}
+      <a href="{{ . }}" target="_blank" rel="noopener" aria-label="LinkedIn" class="si-link"><span class="si si-linkedin" aria-hidden="true"></span></a>
+    {{ end }}
+    {{ with index $s "medium" }}
+      <a href="{{ . }}" target="_blank" rel="noopener" aria-label="Medium" class="si-link"><span class="si si-medium" aria-hidden="true"></span></a>
+    {{ end }}
+    {{ with index $s "scholar" }}
+      <a href="{{ . }}" target="_blank" rel="noopener" aria-label="Google Scholar" class="si-link"><span class="si si-scholar" aria-hidden="true"></span></a>
+    {{ end }}
+    {{ with index $s "twitter" }}
+      <a href="{{ . }}" target="_blank" rel="noopener" aria-label="X" class="si-link"><span class="si si-x" aria-hidden="true"></span></a>
+    {{ end }}
+  </div>
+
+  <p style="margin-top:.5rem; color:#9ca3af;">&copy; {{ now.Format "2006" }} {{ .Site.Title }}</p>
+</footer>
+
+<style>
+.footer-social .si-link{
+  display:inline-flex;align-items:center;justify-content:center;
+  background:transparent!important;box-shadow:none!important;
+  text-decoration:none;-webkit-tap-highlight-color:transparent;
+}
+
+.footer-social .si{
+  width:24px;height:24px;display:inline-block;
+  background-color:#9ca3af; /* default gray */
+  transition:background-color .2s ease;
+  -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;
+  -webkit-mask-position:center;mask-position:center;
+  -webkit-mask-size:contain;mask-size:contain;
+}
+
+.footer-social .si-link:hover .si{ background-color:#93c5fd; }
+
+/* Mask icon sources */
+.si-mail{
+  -webkit-mask-image:url('https://cdn.jsdelivr.net/npm/feather-icons/dist/icons/mail.svg');
+          mask-image:url('https://cdn.jsdelivr.net/npm/feather-icons/dist/icons/mail.svg');
+}
+.si-github{
+  -webkit-mask-image:url('https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/github.svg');
+          mask-image:url('https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/github.svg');
+}
+.si-linkedin{
+  -webkit-mask-image:url('https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/linkedin.svg');
+          mask-image:url('https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/linkedin.svg');
+}
+.si-medium{
+  -webkit-mask-image:url('https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/medium.svg');
+          mask-image:url('https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/medium.svg');
+}
+.si-scholar{
+  -webkit-mask-image:url('https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/googlescholar.svg');
+          mask-image:url('https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/googlescholar.svg');
+}
+.si-x{
+  -webkit-mask-image:url('https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/x.svg');
+          mask-image:url('https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/x.svg');
+}
+</style>
