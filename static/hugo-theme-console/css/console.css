@@ -314,3 +314,43 @@ figure {
         padding-top: 5px;
     }
 }
+
+/* ===============================
+   Fixed full-width navbar
+================================ */
+
+:root{
+    --nav-height: 64px; /* adjust later if needed */
+  }
+  
+  .terminal-nav{
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: var(--nav-height);
+  
+    width: 100%;
+    max-width: none;
+    z-index: 1000;
+  
+    background: var(--background-color);
+    /* border-bottom: 1px solid var(--secondary-color); */
+  
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  
+    padding: 0 2.5rem;   /* no vertical padding -> predictable height */
+    box-sizing: border-box;
+  }
+
+  /* Offset page content so it never sits under fixed nav */
+body{
+    padding-top: var(--nav-height);
+  }
+
+  @media only screen and (max-width: 850px){
+    :root{ --nav-height: 56px; }
+    .terminal-nav{ padding: 0 1rem; }
+  }
+  
+  
