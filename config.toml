@@ -37,6 +37,10 @@ url = "https://shrustighela.medium.com/list/personal-essays-4bb2dd7e49a0"
 # url  = "/photos/"
 
 [[params.navlinks]]
+name = "Photography"
+url = "https://photos.google.com/share/AF1QipOggeoNItv2Kiy7CNSJAynxzb3zJgMWzNR0pHFkMyNb_JlkRaTBF78FWGNReeRZrQ?key=eGI4c2FfMFptRHJwdVhwRklEREtZNkdoNUxzcGtR"
+
+[[params.navlinks]]
 name = "Resume"
 url  = "/resume/"
 
