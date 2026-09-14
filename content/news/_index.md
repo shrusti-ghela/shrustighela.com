@@ -1,6 +1,10 @@
 ---
 title: "News"
 ---
+🏅 Awarded the Kahlert Fellowship by the [Kahlert School of Computing](https://www.cs.utah.edu/)
+
+📚 Starting PhD at the [University of Utah](https://www.utah.edu/)
+
 🎒 I’m at **NeurIPS 2025**. Come say hi!  
 
 🚀 Promoted to **Senior Engineer** at [WM](https://www.wm.com/)  
@@ -21,13 +25,15 @@ title: "News"
 
 🎓 Graduated from the [University of Washington](https://www.washington.edu/) (M.S. in [Data Science](https://www.washington.edu/datasciencemasters/))  
 
+🏅 Awarded the  Betty G. Bengtson Endowed Scholarship by the [UW Libraries]((https://lib.uw.edu/)
+
 🌟 Recognized as one of [UW Libraries’ Amazing Student Employees](https://sites.uw.edu/libstrat/2023/03/23/uw-libraries-amazing-student-employees/)  
 
 💼 Starting a new position at [Constellation](https://www.helloconstellation.com/)  
 
 💼 Starting a joint position at the [eScience Institute](https://escience.washington.edu/) and [UW Libraries](https://lib.uw.edu/)  
 
-🎓 Starting graduate school at the [University of Washington](https://www.washington.edu/)  
+📚 Starting graduate school at the [University of Washington](https://www.washington.edu/)  
 
 📘 My book *[Unsupervised Learning Approaches for Dimensionality Reduction and Data Visualization](https://www.routledge.com/Unsupervised-Learning-Approaches-for-Dimensionality-Reduction-and-Data-Visualization/Tripathy-Sundareswaran-Ghela/p/book/9781032041032)* was published  
 
