@@ -23,9 +23,10 @@ I am a first-year PhD student at the [University of Utah](https://www.utah.edu/)
 
 Before starting my PhD, I split my time between working as an [Independent Researcher](https://en.wikipedia.org/wiki/Independent_scientist) and working on [Routing Optimization](https://en.wikipedia.org/wiki/Vehicle_routing_problem) problems at [WM](https://www.wm.com/). Before that, I earned a master’s degree in [Data Science](https://www.washington.edu/datasciencemasters/) at the [University of Washington](https://www.washington.edu/), which is also where I first got into research.
 
-<!--  -->
+<!-- --- -->
 <br>
-<!--  -->
+<!-- --- -->
+
 I am always interested in meeting new people and learning about what they are working on. Please feel free to [reach out](mailto:shrustighela1@gmail.com) if you would like to talk about my research, yours, or anything else!
 
 <br>
