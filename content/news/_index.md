@@ -1,6 +1,8 @@
 ---
 title: "News"
 ---
+🎒 I’m at **CSCW 2026**. Come say hi!  
+
 🏅 Awarded the Kahlert Fellowship by the [Kahlert School of Computing](https://www.cs.utah.edu/)
 
 📚 Starting PhD at the [University of Utah](https://www.utah.edu/)
